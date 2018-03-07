@@ -3,7 +3,7 @@ import './App.css';
 
 const getLayout = async url => {
     try {
-        const response = await fetch(url, { credentials: "include" })
+        const response = await fetch(url, { credentials: 'include' })
         const layout = await response.json()
         return layout
     } catch (err) {
@@ -15,11 +15,11 @@ const getLayout = async url => {
 const getPage = async url => {
     try {
         console.log(url)
-        const response = await fetch(url, { credentials: "include" })
+        const response = await fetch(url, { credentials: 'include' })
         const page = await response.text()
         return page
     } catch (err) {
-        console.log("Problem with: " + url)
+        console.log('Problem with: ' + url)
         console.log(err)
         return err
     }
@@ -55,7 +55,7 @@ class Portlet extends Component {
           titleBar.className = 'fl-widget-titlebar up-portlet-titlebar up-standard-chrome round-top'
           titleBar.innerHTML = `
                     <h2 class='portlet-title round-top'>
-                        <a href="/uPortal/f/welcome/p/${this.props.p.fname}.${this.props.p.ID}/max/render.uP">
+                        <a href='/uPortal/f/welcome/p/${this.props.p.fname}.${this.props.p.ID}/max/render.uP'>
                             ${this.props.p.title}
                         </a>
                     </h2>
@@ -108,7 +108,7 @@ class Region extends Component {
 
       for(let i=0; i < nextProps.data.content.length; i++) {
           const item = nextProps.data.content[i]
-          getPage("" + item.url).then( page => {
+          getPage('' + item.url).then( page => {
               let {portlets} = this.state
               portlets.push(<Portlet location={this.props.id} key={this.props.id+i} p={item} content={page} />)
               this.setState({portlets})
@@ -134,9 +134,9 @@ class TabColumn extends Component {
   componentDidMount() {
       for(let i=0; i < this.props.data.content.length; i++) {
           const item = this.props.data.content[i]
-          getPage("" + item.url).then( page => {
+          getPage('' + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet location={'pcolumn-' + this.props.column} showChrome="true" key={"tabcolumn"+i} p={item} content={page} />)
+              portlets.push(<Portlet location={'pcolumn-' + this.props.column} showChrome='true' key={'tabcolumn'+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -145,10 +145,10 @@ class TabColumn extends Component {
 
   render() {
       let size
-      if(this.props.data.width === "25%") {
-          size = "col-md-3"
-      } else if(this.props.data.width === "50%") {
-          size = "col-md-6"
+      if(this.props.data.width === '25%') {
+          size = 'col-md-3'
+      } else if(this.props.data.width === '50%') {
+          size = 'col-md-6'
       }
 
       return (
@@ -177,7 +177,7 @@ class Tab extends Component {
       for(let i=0; i < nextProps.data[0].content.length; i++) {
           const item = nextProps.data[0].content[i]
           let {columns} = this.state
-          columns.push(<TabColumn column={i} key={"tab"+i} data={item} />)
+          columns.push(<TabColumn column={i} key={'tab'+i} data={item} />)
           this.setState({columns})
       }
 
@@ -185,9 +185,9 @@ class Tab extends Component {
 
   render() {
       return (
-          <div className="row">
-              <div className="col-md-12">
-                  <div className="row">
+          <div className='row'>
+              <div className='col-md-12'>
+                  <div className='row'>
                       {this.state.columns}
                   </div>
               </div>
@@ -212,9 +212,9 @@ class NavBar extends Component {
 
       let li = nextProps.data.map(item => {
           return (
-              <li key={item.ID} className="portal-navigation single locked list-group-item">
-                  <a className="portal-navigation-link" href="#" title={item.name}>
-                      <span className="portal-navigation-label">{item.name}</span>
+              <li key={item.ID} className='portal-navigation single locked list-group-item'>
+                  <a className='portal-navigation-link' href='#' title={item.name}>
+                      <span className='portal-navigation-label'>{item.name}</span>
                   </a>
               </li>
           )
@@ -226,11 +226,11 @@ class NavBar extends Component {
   render() {
 
       return (
-          <nav className="portal-nav">
-              <div id="sidebar" className="sidebar-offcanvas container-fluid">
-                  <div className="fl-widget" id="portalNavigation">
-                      <div id="portalNavigationInner" className="fl-widget-inner header">
-                          <ul id="portalNavigationList" className="menu fl-tabs flc-reorderer-column list-group list-group-horizontal">
+          <nav className='portal-nav'>
+              <div id='sidebar' className='sidebar-offcanvas container-fluid'>
+                  <div className='fl-widget' id='portalNavigation'>
+                      <div id='portalNavigationInner' className='fl-widget-inner header'>
+                          <ul id='portalNavigationList' className='menu fl-tabs flc-reorderer-column list-group list-group-horizontal'>
                               {this.state.li}
                           </ul>
                       </div>
@@ -243,7 +243,7 @@ class NavBar extends Component {
 
 class App extends Component {
   state = {
-      content: "",
+      content: '',
       page_top: {},
       header_left: {},
       eyebrow: {},
@@ -255,16 +255,16 @@ class App extends Component {
   }
 
   componentDidMount() {
-      getLayout("/uPortal/api/v4-3/dlm/layout.json").then(data => {
+      getLayout('/uPortal/api/v4-3/dlm/layout.json').then(data => {
           console.log(data)
 
-          const page_top = getRegion(data.layout.regions, "page-top")
-          const header_left = getRegion(data.layout.regions, "header-left")
-          const eyebrow = getRegion(data.layout.regions, "eyebrow")
-          const header_right = getRegion(data.layout.regions, "header-right")
-          const header_bottom = getRegion(data.layout.regions, "header-bottom")
-          const footer_second = getRegion(data.layout.regions, "footer-second")
-          const page_bottom = getRegion(data.layout.regions, "page-bottom")
+          const page_top = getRegion(data.layout.regions, 'page-top')
+          const header_left = getRegion(data.layout.regions, 'header-left')
+          const eyebrow = getRegion(data.layout.regions, 'eyebrow')
+          const header_right = getRegion(data.layout.regions, 'header-right')
+          const header_bottom = getRegion(data.layout.regions, 'header-bottom')
+          const footer_second = getRegion(data.layout.regions, 'footer-second')
+          const page_bottom = getRegion(data.layout.regions, 'page-bottom')
 
           this.setState({
               page_top: page_top,
@@ -281,42 +281,42 @@ class App extends Component {
 
   render() {
     return (
-      <div className="up dashboard portal fl-theme-mist">
-        <div className="row-offcanvas">
-            <div id="wrapper">
-                <div id="region-page-top" className="container-fluid">
-                    <div className="row">
-                        <Region id='region-page-top-content' classNames="col-sm-12" data={this.state.page_top} />
+      <div className='up dashboard portal fl-theme-mist'>
+        <div className='row-offcanvas'>
+            <div id='wrapper'>
+                <div id='region-page-top' className='container-fluid'>
+                    <div className='row'>
+                        <Region id='region-page-top-content' classNames='col-sm-12' data={this.state.page_top} />
                     </div>
                 </div>
-                <header className="portal-header" role="banner">
-                    <div id="up-sticky-nav" className="container-fluid">
-                        <div className="portal-global row">
-                            <Region id="region-eyebrow" classNames="portal-user" data={this.state.eyebrow} />
+                <header className='portal-header' role='banner'>
+                    <div id='up-sticky-nav' className='container-fluid'>
+                        <div className='portal-global row'>
+                            <Region id='region-eyebrow' classNames='portal-user' data={this.state.eyebrow} />
                         </div>
                     </div>
-                    <div className="container-fluid portal-header-main">
-                        <div className="row">
-                            <Region classNames="col-sm6 col-md-8 text-left" id="region-header-left" data={this.state.header_left} />
-                            <Region classNames="col-sm6 col-md-4 text-right" id="region-header-right" data={this.state.header_right} />
+                    <div className='container-fluid portal-header-main'>
+                        <div className='row'>
+                            <Region classNames='col-sm6 col-md-8 text-left' id='region-header-left' data={this.state.header_left} />
+                            <Region classNames='col-sm6 col-md-4 text-right' id='region-header-right' data={this.state.header_right} />
                         </div>
                     </div>
-                    <div id="region-header-bottom" className="container-fluid">
-                        <div className="row">
-                            <Region id='region-header-bottom-content' classNames="col-sm-12" data={this.state.header_bottom} />
+                    <div id='region-header-bottom' className='container-fluid'>
+                        <div className='row'>
+                            <Region id='region-header-bottom-content' classNames='col-sm-12' data={this.state.header_bottom} />
                         </div>
                     </div>
                     <NavBar data={this.state.tabs} />
                 </header>
-                <div id="portalPageBody" className="portal-content">
-                    <div className="container-fluid">
+                <div id='portalPageBody' className='portal-content'>
+                    <div className='container-fluid'>
                         <Tab data={this.state.tabs} />
                     </div>
                 </div>
-                <Region id="region-footer-second" role="contentinfo" data={this.state.footer_second} />
-                <div id="region-page-bottom" className="container-fluid">
-                    <div className="row">
-                        <Region id='region-page-bottom-content' classNames="col-sm-12" data={this.state.page_bottom} />
+                <Region id='region-footer-second' role='contentinfo' data={this.state.footer_second} />
+                <div id='region-page-bottom' className='container-fluid'>
+                    <div className='row'>
+                        <Region id='region-page-bottom-content' classNames='col-sm-12' data={this.state.page_bottom} />
                     </div>
                 </div>
             </div>
