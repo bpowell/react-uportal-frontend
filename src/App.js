@@ -212,7 +212,7 @@ class NavBar extends Component {
 
       let li = nextProps.data.map(item => {
           return (
-              <li key={item.ID} className="portal-navigation single active fl-tabs-active locked list-group-item">
+              <li key={item.ID} className="portal-navigation single locked list-group-item">
                   <a className="portal-navigation-link" href="#" title={item.name}>
                       <span className="portal-navigation-label">{item.name}</span>
                   </a>
