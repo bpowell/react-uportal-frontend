@@ -108,7 +108,7 @@ class Region extends Component {
 
       for(let i=0; i < nextProps.data.content.length; i++) {
           const item = nextProps.data.content[i]
-          getPage('' + item.url).then( page => {
+          getPage(item.url).then( page => {
               let {portlets} = this.state
               portlets.push(<Portlet location={this.props.id} key={this.props.id+i} p={item} content={page} />)
               this.setState({portlets})
@@ -134,7 +134,7 @@ class TabColumn extends Component {
   componentDidMount() {
       for(let i=0; i < this.props.data.content.length; i++) {
           const item = this.props.data.content[i]
-          getPage('' + item.url).then( page => {
+          getPage(item.url).then( page => {
               let {portlets} = this.state
               portlets.push(<Portlet location={'pcolumn-' + this.props.column} showChrome='true' key={'tabcolumn'+i} p={item} content={page} />)
               this.setState({portlets})
