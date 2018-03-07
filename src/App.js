@@ -34,31 +34,61 @@ const getRegion = (data, name) => {
 }
 
 class Portlet extends Component {
-  render() {
+  componentDidMount() {
       let frag = document.createRange().createContextualFragment(this.props.content)
 
       if(this.props.showChrome) {
-          return (
-              <section className="up-portlet-wrapper">
-                  <div className="up-portlet-wrapper-inner">
-                      <div className="fl-widget-titlebar up-portlet-titlebar up-standard-chrome round-top">
-                          <h2 className="portlet-title round-top">
-                              <a href={"/uPortal/f/welcome/p/" + this.props.p.fname + "." + this.props.p.ID + "/max/render.uP"}>
-                                  {this.props.p.title}
-                              </a>
-                          </h2>
-                      </div>
-                      <div className="fl-widget-content fl-fix up-portlet-content-wrapper round-bottom">
-                          <div className="up-portlet-content-wrapper-inner">
-                              <div className={this.props.p.fname} dangerouslySetInnerHTML={{__html: this.props.content}} />
-                          </div>
-                      </div>
-                  </div>
-              </section>
-         )
+          let portletContainer = document.createElement('div')
+
+          portletContainer.className = this.props.p.fname
+          portletContainer.appendChild(frag)
+
+          let portletContentWrapperInner = document.createElement('div')
+          portletContentWrapperInner.className = 'up-portlet-content-wrapper-inner'
+          portletContentWrapperInner.appendChild(portletContainer)
+
+          let portletContentWrapper = document.createElement('div')
+          portletContentWrapper.className = 'fl-widget-content fl-fix up-portlet-content-wrapper round-bottom'
+          portletContentWrapper.appendChild(portletContentWrapperInner)
+
+          let titleBar = document.createElement('div')
+          titleBar.className = 'fl-widget-titlebar up-portlet-titlebar up-standard-chrome round-top'
+          titleBar.innerHTML = `
+                    <h2 class='portlet-title round-top'>
+                        <a href="/uPortal/f/welcome/p/${this.props.p.fname}.${this.props.p.ID}/max/render.uP">
+                            ${this.props.p.title}
+                        </a>
+                    </h2>
+                    `
+
+          let wrapperInner = document.createElement('div')
+          wrapperInner.className = 'up-portlet-wrapper-inner'
+          wrapperInner.appendChild(titleBar)
+          wrapperInner.appendChild(portletContentWrapper)
+
+          let wrapper = document.createElement('section')
+          wrapper.className = 'up-portlet-wrapper'
+          wrapper.appendChild(wrapperInner)
+
+          console.log(this.props.p.fname)
+          const column = document.getElementById(this.props.location)
+          if(column !== null) {
+              column.appendChild(wrapper)
+          }
       } else {
-          return <section dangerouslySetInnerHTML={{__html: this.props.content }} />
+          let wrapper = document.createElement('section')
+          wrapper.className = 'up-portlet-wrapper'
+          wrapper.appendChild(frag)
+
+          const column = document.getElementById(this.props.location)
+          if(column !== null) {
+              column.appendChild(wrapper)
+          }
       }
+  }
+
+  render() {
+      return null
   }
 }
 
@@ -80,7 +110,7 @@ class PageTop extends Component {
           const item = nextProps.data.content[i]
           getPage("" + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet key={"pagetop"+i} p={item} content={page} />)
+              portlets.push(<Portlet location='region-page-top-content' key={"pagetop"+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -91,7 +121,7 @@ class PageTop extends Component {
       return (
           <div id="region-page-top" className="container-fluid">
               <div className="row">
-                  <div className="col-sm-12">
+                  <div id='region-page-top-content' className="col-sm-12">
                       {this.state.portlets}
                   </div>
               </div>
@@ -118,7 +148,7 @@ class HeaderRight extends Component {
           const item = nextProps.data.content[i]
           getPage("" + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet key={"headerright"+i} p={item} content={page} />)
+              portlets.push(<Portlet location='region-header-right' key={"headerright"+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -152,7 +182,7 @@ class HeaderLeft extends Component {
           const item = nextProps.data.content[i]
           getPage("" + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet key={"headerleft"+i} p={item} content={page} />)
+              portlets.push(<Portlet location='region-header-left' key={"headerleft"+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -186,7 +216,7 @@ class EyeBrow extends Component {
           const item = nextProps.data.content[i]
           getPage("" + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet key={"eyebrow"+i} p={item} content={page} />)
+              portlets.push(<Portlet location='region-eyebrow' key={"eyebrow"+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -220,7 +250,7 @@ class PageBottom extends Component {
           const item = nextProps.data.content[i]
           getPage("" + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet key={"pagebottom"+i} p={item} content={page} />)
+              portlets.push(<Portlet location='region-page-bottom-content' key={"pagebottom"+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -231,7 +261,7 @@ class PageBottom extends Component {
       return (
           <div id="region-page-bottom" className="container-fluid">
               <div className="row">
-                  <div className="col-sm-12">
+                  <div id='region-page-bottom-content' className="col-sm-12">
                       {this.state.portlets}
                   </div>
               </div>
@@ -258,7 +288,7 @@ class HeaderBottom extends Component {
           const item = nextProps.data.content[i]
           getPage("" + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet key={"headerbottom"+i} p={item} content={page} />)
+              portlets.push(<Portlet location='region-header-bottom-content' key={"headerbottom"+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -269,7 +299,7 @@ class HeaderBottom extends Component {
       return (
           <div id="region-header-bottom" className="container-fluid">
               <div className="row">
-                  <div className="col-sm-12">
+                  <div id='region-header-bottom-content' className="col-sm-12">
                       {this.state.portlets}
                   </div>
               </div>
@@ -296,7 +326,7 @@ class FooterSecond extends Component {
           const item = nextProps.data.content[i]
           getPage("" + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet key={"footersecond"+i} p={item} content={page} />)
+              portlets.push(<Portlet location='region-footer-second' key={"footersecond"+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -322,7 +352,7 @@ class TabColumn extends Component {
           const item = this.props.data.content[i]
           getPage("" + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet showChrome="true" key={"tabcolumn"+i} p={item} content={page} />)
+              portlets.push(<Portlet location={'pcolumn-' + this.props.column} showChrome="true" key={"tabcolumn"+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -338,7 +368,7 @@ class TabColumn extends Component {
       }
 
       return (
-          <div className={'portal-page-column ' + size}>
+          <div id={'pcolumn-' + this.props.column} className={'portal-page-column ' + size}>
               {this.state.portlets}
           </div>
           )
@@ -363,7 +393,7 @@ class Tab extends Component {
       for(let i=0; i < nextProps.data[0].content.length; i++) {
           const item = nextProps.data[0].content[i]
           let {columns} = this.state
-          columns.push(<TabColumn key={"tab"+i} data={item} />)
+          columns.push(<TabColumn column={i} key={"tab"+i} data={item} />)
           this.setState({columns})
       }
 
