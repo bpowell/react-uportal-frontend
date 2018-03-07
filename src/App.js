@@ -92,7 +92,7 @@ class Portlet extends Component {
   }
 }
 
-class PageTop extends Component {
+class Region extends Component {
   state = {
       portlets: [],
   }
@@ -110,7 +110,7 @@ class PageTop extends Component {
           const item = nextProps.data.content[i]
           getPage("" + item.url).then( page => {
               let {portlets} = this.state
-              portlets.push(<Portlet location='region-page-top-content' key={"pagetop"+i} p={item} content={page} />)
+              portlets.push(<Portlet location={this.props.id} key={this.props.id+i} p={item} content={page} />)
               this.setState({portlets})
           })
       }
@@ -119,226 +119,10 @@ class PageTop extends Component {
 
   render() {
       return (
-          <div id="region-page-top" className="container-fluid">
-              <div className="row">
-                  <div id='region-page-top-content' className="col-sm-12">
-                      {this.state.portlets}
-                  </div>
-              </div>
-          </div>
-          )
-  }
-}
-
-class HeaderRight extends Component {
-  state = {
-      portlets: [],
-  }
-
-  componentWillReceiveProps(nextProps) {
-      if(nextProps === null || nextProps === undefined) {
-          return
-      }
-
-      if(nextProps === this.props) {
-          return
-      }
-
-      for(let i=0; i < nextProps.data.content.length; i++) {
-          const item = nextProps.data.content[i]
-          getPage("" + item.url).then( page => {
-              let {portlets} = this.state
-              portlets.push(<Portlet location='region-header-right' key={"headerright"+i} p={item} content={page} />)
-              this.setState({portlets})
-          })
-      }
-
-  }
-
-  render() {
-      return (
-          <div id="region-header-right" className="col-sm6 col-md-4 text-right">
+          <div id={this.props.id} className={this.props.classNames} role={this.props.role}>
               {this.state.portlets}
           </div>
-          )
-  }
-}
-
-class HeaderLeft extends Component {
-  state = {
-      portlets: [],
-  }
-
-  componentWillReceiveProps(nextProps) {
-      if(nextProps === null || nextProps === undefined) {
-          return
-      }
-
-      if(nextProps === this.props) {
-          return
-      }
-
-      for(let i=0; i < nextProps.data.content.length; i++) {
-          const item = nextProps.data.content[i]
-          getPage("" + item.url).then( page => {
-              let {portlets} = this.state
-              portlets.push(<Portlet location='region-header-left' key={"headerleft"+i} p={item} content={page} />)
-              this.setState({portlets})
-          })
-      }
-
-  }
-
-  render() {
-      return (
-          <div id="region-header-left" className="col-sm6 col-md-8 text-left">
-              {this.state.portlets}
-          </div>
-          )
-  }
-}
-
-class EyeBrow extends Component {
-  state = {
-      portlets: [],
-  }
-
-  componentWillReceiveProps(nextProps) {
-      if(nextProps === null || nextProps === undefined) {
-          return
-      }
-
-      if(nextProps === this.props) {
-          return
-      }
-
-      for(let i=0; i < nextProps.data.content.length; i++) {
-          const item = nextProps.data.content[i]
-          getPage("" + item.url).then( page => {
-              let {portlets} = this.state
-              portlets.push(<Portlet location='region-eyebrow' key={"eyebrow"+i} p={item} content={page} />)
-              this.setState({portlets})
-          })
-      }
-
-  }
-
-  render() {
-      return (
-          <div id="region-eyebrow" className="portal-user">
-              {this.state.portlets}
-          </div>
-          )
-  }
-}
-
-class PageBottom extends Component {
-  state = {
-      portlets: [],
-  }
-
-  componentWillReceiveProps(nextProps) {
-      if(nextProps === null || nextProps === undefined) {
-          return
-      }
-
-      if(nextProps === this.props) {
-          return
-      }
-
-      for(let i=0; i < nextProps.data.content.length; i++) {
-          const item = nextProps.data.content[i]
-          getPage("" + item.url).then( page => {
-              let {portlets} = this.state
-              portlets.push(<Portlet location='region-page-bottom-content' key={"pagebottom"+i} p={item} content={page} />)
-              this.setState({portlets})
-          })
-      }
-
-  }
-
-  render() {
-      return (
-          <div id="region-page-bottom" className="container-fluid">
-              <div className="row">
-                  <div id='region-page-bottom-content' className="col-sm-12">
-                      {this.state.portlets}
-                  </div>
-              </div>
-          </div>
-          )
-  }
-}
-
-class HeaderBottom extends Component {
-  state = {
-      portlets: [],
-  }
-
-  componentWillReceiveProps(nextProps) {
-      if(nextProps === null || nextProps === undefined) {
-          return
-      }
-
-      if(nextProps === this.props) {
-          return
-      }
-
-      for(let i=0; i < nextProps.data.content.length; i++) {
-          const item = nextProps.data.content[i]
-          getPage("" + item.url).then( page => {
-              let {portlets} = this.state
-              portlets.push(<Portlet location='region-header-bottom-content' key={"headerbottom"+i} p={item} content={page} />)
-              this.setState({portlets})
-          })
-      }
-
-  }
-
-  render() {
-      return (
-          <div id="region-header-bottom" className="container-fluid">
-              <div className="row">
-                  <div id='region-header-bottom-content' className="col-sm-12">
-                      {this.state.portlets}
-                  </div>
-              </div>
-          </div>
-          )
-  }
-}
-
-class FooterSecond extends Component {
-  state = {
-      portlets: [],
-  }
-
-  componentWillReceiveProps(nextProps) {
-      if(nextProps === null || nextProps === undefined) {
-          return
-      }
-
-      if(nextProps === this.props) {
-          return
-      }
-
-      for(let i=0; i < nextProps.data.content.length; i++) {
-          const item = nextProps.data.content[i]
-          getPage("" + item.url).then( page => {
-              let {portlets} = this.state
-              portlets.push(<Portlet location='region-footer-second' key={"footersecond"+i} p={item} content={page} />)
-              this.setState({portlets})
-          })
-      }
-
-  }
-
-  render() {
-      return (
-          <footer id="region-footer-second" role="contentinfo">
-              {this.state.portlets}
-          </footer>
-          )
+      )
   }
 }
 
@@ -496,25 +280,32 @@ class App extends Component {
   }
 
   render() {
-    const {page_top} = this.state
     return (
       <div className="up dashboard portal fl-theme-mist">
         <div className="row-offcanvas">
             <div id="wrapper">
-                <PageTop data={page_top} />
+                <div id="region-page-top" className="container-fluid">
+                    <div className="row">
+                        <Region id='region-page-top-content' classNames="col-sm-12" data={this.state.page_top} />
+                    </div>
+                </div>
                 <header className="portal-header" role="banner">
                     <div id="up-sticky-nav" className="container-fluid">
                         <div className="portal-global row">
-                            <EyeBrow data={this.state.eyebrow} />
+                            <Region id="region-eyebrow" classNames="portal-user" data={this.state.eyebrow} />
                         </div>
                     </div>
                     <div className="container-fluid portal-header-main">
                         <div className="row">
-                            <HeaderLeft data={this.state.header_left} />
-                            <HeaderRight data={this.state.header_right} />
+                            <Region classNames="col-sm6 col-md-8 text-left" id="region-header-left" data={this.state.header_left} />
+                            <Region classNames="col-sm6 col-md-4 text-right" id="region-header-right" data={this.state.header_right} />
                         </div>
                     </div>
-                    <HeaderBottom data={this.state.header_bottom} />
+                    <div id="region-header-bottom" className="container-fluid">
+                        <div className="row">
+                            <Region id='region-header-bottom-content' classNames="col-sm-12" data={this.state.header_bottom} />
+                        </div>
+                    </div>
                     <NavBar data={this.state.tabs} />
                 </header>
                 <div id="portalPageBody" className="portal-content">
@@ -522,8 +313,12 @@ class App extends Component {
                         <Tab data={this.state.tabs} />
                     </div>
                 </div>
-                <FooterSecond data={this.state.footer_second} />
-                <PageBottom data={this.state.page_bottom} />
+                <Region id="region-footer-second" role="contentinfo" data={this.state.footer_second} />
+                <div id="region-page-bottom" className="container-fluid">
+                    <div className="row">
+                        <Region id='region-page-bottom-content' classNames="col-sm-12" data={this.state.page_bottom} />
+                    </div>
+                </div>
             </div>
         </div>
       </div>
